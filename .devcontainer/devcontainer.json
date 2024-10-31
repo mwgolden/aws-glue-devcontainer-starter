@@ -1,0 +1,28 @@
+{
+    "name": "AWS Glue 4.0 Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "containerEnv": {
+        "DISABLE_SSL": "true"
+    },
+    "mounts": [
+        "source=${localEnv:HOME}/.aws,target=/home/glue_user/.aws,type=bind",
+        "source=${localEnv:HOME}/.ssh,target=/home/glue_user/.ssh,type=bind,consistency=cached"
+    ],
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/glue_user/workspace/jupyter_workspace,type=bind",
+    "workspaceFolder": "/home/glue_user/workspace/jupyter_workspace",
+    "customizations" :{
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "remoteUser": "glue_user",
+    "runArgs": ["--user", "glue_user"],
+    "postCreateCommand": "jupyter notebook --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --NotebookApp.disable_check_xsrf=True --NotebookApp.allow_remote_access=True"
+}
